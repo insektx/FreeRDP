@@ -47,6 +47,12 @@ if((CMAKE_SYSTEM_NAME MATCHES "WindowsStore") AND (CMAKE_SYSTEM_VERSION MATCHES 
 	set(CMAKE_WINDOWS_VERSION "WIN10")
 endif()
 
+cmake_policy(SET CMP0022 NEW)
+
+add_definitions(-DLIBAVCODEC_VERSION_MAJOR=59 -DCHANNEL_RDPSND=ON -DCHANNEL_RDPSND_CLIENT=ON -DWITH_PULSE=ON)
+link_libraries(-ldav1d -lvpx -lx264 -lx265 -lva -laom -lva-drm -lva-x11 -lfdk-aac -lvdpau -lopus)
+
+
 # Check for cmake compatibility (enable/disable features)
 include(CheckCmakeCompat)
 
@@ -350,6 +356,8 @@ if(${CMAKE_C_COMPILER_ID} STREQUAL "Clang")
 endif()
 
 set(THREAD_PREFER_PTHREAD_FLAG TRUE)
+
+set(CMAKE_SHARED_LINKER_FLAGS "-Wl,-Bsymbolic")
 
 if(NOT IOS)
 	find_package(Threads REQUIRED)
